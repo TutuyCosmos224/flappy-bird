@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Flappy Bird Sprite/Bird.png" type="Texture" id=1]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 11.3247
+height = 7.54062
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 12.0988
+height = 6.64581
+
+[node name="RigidBody2D" type="RigidBody2D"]
+position = Vector2( 159.872, 316.21 )
+mass = 10.0
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -31.5745, -33.3081 )
+scale = Vector2( 0.0558456, 0.0558456 )
+texture = ExtResource( 1 )
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.102051, 0.261139 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="Detect" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detect"]
+position = Vector2( 0.201874, 0.538116 )
+rotation = 1.5708
+shape = SubResource( 2 )

@@ -1,0 +1,86 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://04B_19__.TTF" type="DynamicFontData" id=1]
+[ext_resource path="res://PlayButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://TitleScreen.gd" type="Script" id=3]
+[ext_resource path="res://QuitButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://FadeIn.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Flappy Bird Sprite/Background.png" type="Texture" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+size = 100
+font_data = ExtResource( 1 )
+
+[node name="TitleScreen" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 120.0
+margin_top = 80.0
+margin_right = 1160.0
+margin_bottom = 640.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+margin_right = 1040.0
+margin_bottom = 101.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 5
+custom_constants/shadow_offset_y = 5
+text = "Flappy Bird"
+align = 1
+valign = 1
+
+[node name="CenterRow" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 105.0
+margin_right = 1040.0
+margin_bottom = 560.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Buttons" type="VBoxContainer" parent="VBoxContainer/CenterRow"]
+margin_right = 1040.0
+margin_bottom = 455.0
+size_flags_horizontal = 3
+custom_constants/separation = 40
+alignment = 1
+
+[node name="PlayButton" parent="VBoxContainer/CenterRow/Buttons" instance=ExtResource( 2 )]
+margin_top = 147.0
+margin_bottom = 207.0
+action_mode = 0
+scene_to_load = "res://GamePlay.tscn"
+
+[node name="QuitButton" parent="VBoxContainer/CenterRow/Buttons" instance=ExtResource( 4 )]
+margin_top = 247.0
+margin_bottom = 307.0
+
+[node name="FadeIn" parent="." instance=ExtResource( 5 )]
+
+[node name="Background" type="TextureRect" parent="."]
+show_behind_parent = true
+margin_left = 6.80095
+margin_top = 3.03807
+margin_right = 906.801
+margin_bottom = 507.038
+rect_scale = Vector2( 1.42, 1.43 )
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="VBoxContainer/CenterRow/Buttons/PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="fade_finished" from="FadeIn" to="." method="_on_FadeIn_fade_finished"]

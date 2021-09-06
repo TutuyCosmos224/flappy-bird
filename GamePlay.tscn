@@ -1,0 +1,143 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://flappybirdfont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Pipe3.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Pipe4.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Pipe.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Pipe2.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Pipe5.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Flappy Bird Sprite/Bird.png" type="Texture" id=7]
+[ext_resource path="res://point.mp3" type="AudioStream" id=8]
+[ext_resource path="res://wing.mp3" type="AudioStream" id=9]
+[ext_resource path="res://bird.gd" type="Script" id=10]
+[ext_resource path="res://Flappy Bird Sprite/Background.png" type="Texture" id=11]
+[ext_resource path="res://Pause.gd" type="Script" id=15]
+
+[sub_resource type="RectangleShape2D" id=3]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 11.3247
+height = 7.54062
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 12.0988
+height = 6.64581
+
+[node name="GamePlay" type="Node"]
+
+[node name="Background" type="TextureRect" parent="."]
+show_behind_parent = true
+margin_left = 82.9102
+margin_top = 169.527
+margin_right = 982.91
+margin_bottom = 673.527
+rect_scale = Vector2( 0.723757, 0.733892 )
+texture = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Pipe" parent="." instance=ExtResource( 4 )]
+
+[node name="Pipe2" parent="." instance=ExtResource( 5 )]
+
+[node name="Pipe3" parent="." instance=ExtResource( 2 )]
+
+[node name="Pipe4" parent="." instance=ExtResource( 3 )]
+
+[node name="Pipe5" parent="." instance=ExtResource( 6 )]
+position = Vector2( 54.9118, 461.081 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 408.729, 354.859 )
+current = true
+zoom = Vector2( 0.5, 0.5 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource( 3 )
+
+[node name="Score" type="CanvasLayer" parent="."]
+follow_viewport_enable = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Score"]
+margin_left = 366.0
+margin_top = 182.0
+margin_right = 551.0
+margin_bottom = 232.0
+rect_scale = Vector2( 0.519999, 0.519999 )
+size_flags_stretch_ratio = 10.03
+custom_fonts/normal_font = ExtResource( 1 )
+custom_colors/default_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Score: 1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="Sprite"]
+position = Vector2( 409.356, 529.461 )
+color = Color( 0.101456, 0.425781, 0.228999, 1 )
+polygon = PoolVector2Array( -326.456, -7.13074, 325.682, -8.02161, 324.791, 9.79639, -326.456, 8.01459 )
+
+[node name="Bird" type="KinematicBody2D" parent="."]
+position = Vector2( 150.869, 232.213 )
+script = ExtResource( 10 )
+
+[node name="Sprite" type="Sprite" parent="Bird"]
+position = Vector2( -31.5745, -33.3081 )
+scale = Vector2( 0.0558456, 0.0558456 )
+texture = ExtResource( 7 )
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bird"]
+position = Vector2( -0.102051, 0.261139 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="Detect" type="Area2D" parent="Bird"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bird/Detect"]
+position = Vector2( 0.201874, 0.538116 )
+rotation = 1.5708
+shape = SubResource( 2 )
+
+[node name="PointSFX" type="AudioStreamPlayer2D" parent="Bird"]
+stream = ExtResource( 8 )
+
+[node name="WingSFX" type="AudioStreamPlayer2D" parent="Bird"]
+stream = ExtResource( 9 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 128
+
+[node name="Pause" type="Control" parent="CanvasLayer"]
+pause_mode = 2
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -0.943909
+margin_right = -0.943848
+script = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OverlayBG" type="ColorRect" parent="CanvasLayer/Pause"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -0.620575
+margin_top = 1.49831
+margin_right = -0.620605
+margin_bottom = 1.49829
+color = Color( 0, 0, 0, 0.368627 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="area_entered" from="Bird/Detect" to="Bird" method="_on_Detect_area_entered"]
+[connection signal="body_entered" from="Bird/Detect" to="Bird" method="_on_Detect_body_entered"]
